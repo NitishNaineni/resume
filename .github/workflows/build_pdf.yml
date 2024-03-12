@@ -24,7 +24,7 @@ jobs:
       run: pandoc README.md -o resume.pdf --pdf-engine=wkhtmltopdf
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.5.0
+      uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages  # The target branch to push to
