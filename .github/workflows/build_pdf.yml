@@ -1,0 +1,29 @@
+name: Build and Deploy PDF
+
+on:
+  push:
+    paths:
+      - 'README.md'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Pandoc
+      run: sudo apt-get install pandoc
+
+    - name: Convert README.md to PDF
+      run: pandoc README.md -o resume.pdf
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages  # Pushes the PDF to the gh-pages branch
+        FOLDER: .  # The folder the action will deploy.
+        TARGET_FOLDER: .  # The folder in the gh-pages branch to commit the PDF to
+        SINGLE_FILE: resume.pdf  # Specify the PDF file to push to gh-pages
