@@ -15,16 +15,19 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Pandoc
-      run: sudo apt-get install pandoc
+      run: sudo apt-get install -y pandoc
 
-    - name: Convert README.md to PDF
-      run: pandoc README.md -o resume.pdf
+    - name: Setup wkhtmltopdf
+      run: sudo apt-get install -y wkhtmltopdf
+
+    - name: Convert README.md to PDF using wkhtmltopdf
+      run: pandoc README.md -o resume.pdf --pdf-engine=wkhtmltopdf
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages  # Pushes the PDF to the gh-pages branch
-        FOLDER: .  # The folder the action will deploy.
-        TARGET_FOLDER: .  # The folder in the gh-pages branch to commit the PDF to
-        SINGLE_FILE: resume.pdf  # Specify the PDF file to push to gh-pages
+        BRANCH: gh-pages
+        FOLDER: .
+        TARGET_FOLDER: .
+        SINGLE_FILE: resume.pdf
